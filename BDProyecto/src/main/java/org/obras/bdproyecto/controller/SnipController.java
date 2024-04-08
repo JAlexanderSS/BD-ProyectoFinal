@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/snip")
 public class SnipController {
@@ -64,19 +66,69 @@ public class SnipController {
     @DeleteMapping("/deleteSnip/{idSnip}")
     public ResponseEntity<?> deleteSnip(@PathVariable Integer idSnip){
         try {
-            snipService.deleteSnip(idSnip);
-            return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyecto eliminado correctamente")
-                    .object(null)
-                    .build()
-                    , HttpStatus.OK);
+            Snip snipDelete = snipService.findSnipById(idSnip);
+            snipService.deleteSnip(snipDelete);
+            return new ResponseEntity<>(snipDelete, HttpStatus.NO_CONTENT);
         } catch (DataAccessException exDt){
-            return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje(exDt.getMessage())
-                    .object(null)
-                    .build()
-                    ,HttpStatus.METHOD_NOT_ALLOWED
-            );
+            return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                            .mensaje("El registro que intenta eliminar no existe")
+                            .object(null)
+                            .build()
+                    ,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/listAllSnip")
+    public ResponseEntity<?> showAll(){
+        List<Snip> getListCliente = snipService.listAllSnip();
+        if (getListCliente == null){
+            return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                            .mensaje("No hay registros!!")
+                            .object(null)
+                            .build(),HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(
+                MensajeResponse.builder()
+                        .mensaje("")
+                        .object(getListCliente)
+                        .build(),HttpStatus.OK);
+    }
+    @PutMapping("tipoCuenta/{id}")
+    public ResponseEntity<?>update(@RequestBody SnipDto snipDto,@PathVariable Integer id){
+        Snip snipUdate = null;
+
+        try {
+            if (snipService.existsByIdSnip(id)){
+                snipDto.setIdSnip(id);
+                snipUdate = snipService.saveSnip(snipDto);
+                return new ResponseEntity<>(MensajeResponse.builder()
+                        .mensaje("Actualizado Correctamente")
+                        .object(SnipDto.builder()
+                                .idSnip(snipUdate.getIdSnip())
+                                .noSnip(snipUdate.getNoSnip())
+                                .nombreProyecto(snipUdate.getNombreProyecto())
+                                .build()
+                        )
+                        .build()
+                        ,HttpStatus.CREATED);
+            }else {
+                return new ResponseEntity<>(
+                        MensajeResponse.builder()
+                                .mensaje("El registro que intenta actualizar no se encuentra en la base de datos")
+                                .object(null)
+                                .build()
+                        ,HttpStatus.NOT_FOUND);
+            }
+        }catch (DataAccessException exDt){
+            return new ResponseEntity<>(
+                    MensajeResponse.builder()
+                            .mensaje("Errro al intentar actualizar el registro")
+                            .object(null)
+                            .build()
+                    ,HttpStatus.METHOD_NOT_ALLOWED);
+
         }
     }
 }

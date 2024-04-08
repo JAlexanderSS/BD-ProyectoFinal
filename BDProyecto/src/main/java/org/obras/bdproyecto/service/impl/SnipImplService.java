@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.service.annotation.GetExchange;
 
+import java.util.List;
+
 @Service
 public class SnipImplService implements ISnipService {
     @Autowired
@@ -24,18 +26,22 @@ public class SnipImplService implements ISnipService {
     }
 
     @Override
-    @GetMapping("/findSnipById/{idSnip}")
     public Snip findSnipById(Integer idSnip) {
-        return snipDao.existsSnipById(idSnip);
+        return snipDao.findById(idSnip).orElse(null);
     }
 
     @Override
-    public boolean existsSnipById(Integer idSnip) {
+    public boolean existsByIdSnip(Integer idSnip) {
         return snipDao.existsById(idSnip);
     }
 
     @Override
-    public void deleteSnip(Integer idSnip) {
-        snipDao.existsById(idSnip);
+    public void deleteSnip(Snip snip) {
+        snipDao.delete(snip);
+    }
+
+    @Override
+    public List<Snip> listAllSnip() {
+        return (List) snipDao.findAll();
     }
 }
