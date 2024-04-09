@@ -100,36 +100,33 @@ public class SmipController {
         }
     }
     @PutMapping("/updateSmip/{idSmip}")
-    public ResponseEntity<?> updateSmip(@PathVariable Integer idSmip, @RequestBody SmipDto smipDto){
-        Smip smipUpdate = null;
+    public ResponseEntity<?> updateSmip(@PathVariable Integer idSmip, @RequestBody SmipDto smipDto) {
         try {
-            if(smipService.existsByIdSmip(idSmip)){
-                smipUpdate = smipService.saveSmip(smipDto);
+            if (smipService.existsByIdSmip(idSmip)) {
+                smipDto.setIdSmip(idSmip);
+                Smip smipUpdate = smipService.saveSmip(smipDto);
+                SmipDto updatedDto = SmipDto.builder()
+                        .idSmip(smipUpdate.getIdSmip())
+                        .numeroSmip(smipUpdate.getNumeroSmip())
+                        .idSnip(smipUpdate.getIdSnip())
+                        .monto(smipUpdate.getMonto())
+                        .build();
+
                 return new ResponseEntity<>(MensajeResponse.builder()
                         .mensaje("Proyecto actualizado")
-                        .object(SmipDto.builder()
-                                .idSmip(smipUpdate.getIdSmip())
-                                .numeroSmip(smipUpdate.getNumeroSmip())
-                                .idSnip(smipUpdate.getIdSnip())
-                                .monto(smipUpdate.getMonto())
-                                .build()
-                        )
-                        .build()
-                        , HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyecto no encontrado")
-                    .object(null)
-                    .build()
-                    , HttpStatus.NOT_FOUND);
-        }
-        } catch (DataAccessException exDt){
+                        .object(updatedDto)
+                        .build(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(MensajeResponse.builder()
+                        .mensaje("Proyecto no encontrado")
+                        .object(null)
+                        .build(), HttpStatus.NOT_FOUND);
+            }
+        } catch (DataAccessException exDt) {
             return new ResponseEntity<>(MensajeResponse.builder()
                     .mensaje(exDt.getMessage())
                     .object(null)
-                    .build()
-                    ,HttpStatus.METHOD_NOT_ALLOWED
-            );
+                    .build(), HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
 }

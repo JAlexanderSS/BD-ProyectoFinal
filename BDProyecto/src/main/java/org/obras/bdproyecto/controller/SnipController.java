@@ -80,8 +80,8 @@ public class SnipController {
     }
     @GetMapping("/listAllSnip")
     public ResponseEntity<?> showAll(){
-        List<Snip> getListCliente = snipService.listAllSnip();
-        if (getListCliente == null){
+        List<Snip> getListSnip = snipService.listAllSnip();
+        if (getListSnip == null){
             return new ResponseEntity<>(
                     MensajeResponse.builder()
                             .mensaje("No hay registros!!")
@@ -92,43 +92,36 @@ public class SnipController {
         return new ResponseEntity<>(
                 MensajeResponse.builder()
                         .mensaje("")
-                        .object(getListCliente)
+                        .object(getListSnip)
                         .build(),HttpStatus.OK);
     }
-    @PutMapping("tipoCuenta/{id}")
-    public ResponseEntity<?>update(@RequestBody SnipDto snipDto,@PathVariable Integer id){
-        Snip snipUdate = null;
-
+    @PutMapping("/updateSnip/{id}")
+    public ResponseEntity<?> update(@RequestBody SnipDto snipDto, @PathVariable Integer id) {
         try {
-            if (snipService.existsByIdSnip(id)){
+            if (snipService.existsByIdSnip(id)) {
                 snipDto.setIdSnip(id);
-                snipUdate = snipService.saveSnip(snipDto);
+                Snip snipUpdate = snipService.saveSnip(snipDto);
+                SnipDto updatedDto = SnipDto.builder()
+                        .idSnip(snipUpdate.getIdSnip())
+                        .noSnip(snipUpdate.getNoSnip())
+                        .nombreProyecto(snipUpdate.getNombreProyecto())
+                        .build();
                 return new ResponseEntity<>(MensajeResponse.builder()
                         .mensaje("Actualizado Correctamente")
-                        .object(SnipDto.builder()
-                                .idSnip(snipUdate.getIdSnip())
-                                .noSnip(snipUdate.getNoSnip())
-                                .nombreProyecto(snipUdate.getNombreProyecto())
-                                .build()
-                        )
-                        .build()
-                        ,HttpStatus.CREATED);
-            }else {
-                return new ResponseEntity<>(
-                        MensajeResponse.builder()
-                                .mensaje("El registro que intenta actualizar no se encuentra en la base de datos")
-                                .object(null)
-                                .build()
-                        ,HttpStatus.NOT_FOUND);
+                        .object(updatedDto)
+                        .build(), HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(MensajeResponse.builder()
+                        .mensaje("El registro que intenta actualizar no se encuentra en la base de datos")
+                        .object(null)
+                        .build(), HttpStatus.NOT_FOUND);
             }
-        }catch (DataAccessException exDt){
-            return new ResponseEntity<>(
-                    MensajeResponse.builder()
-                            .mensaje("Errro al intentar actualizar el registro")
-                            .object(null)
-                            .build()
-                    ,HttpStatus.METHOD_NOT_ALLOWED);
-
+        } catch (DataAccessException exDt) {
+            return new ResponseEntity<>(MensajeResponse.builder()
+                    .mensaje("Error al intentar actualizar el registro")
+                    .object(null)
+                    .build(), HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
+
 }
