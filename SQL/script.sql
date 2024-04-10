@@ -1,4 +1,4 @@
-CREATE DATABASE ControlProyectosDB;
+CREATE DATABASE ControlProyectosBD;
 
 USE ControlProyectosDB;
 
@@ -20,49 +20,53 @@ CREATE TABLE SMIP
 
 CREATE TABLE RENGLON_INICIAL
 (
+	id_renglon_inicial INT PRIMARY KEY IDENTITY(1,1),
     id_smip INT,
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_smip) REFERENCES SMIP(id_smip)
 );
 
 CREATE TABLE RENGLON_ACTUAL
 (
+	id_renglon_actual INT PRIMARY KEY IDENTITY(1,1),
     id_smip INT,
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_smip) REFERENCES SMIP(id_smip)
 );
 
 CREATE TABLE RENGLON_EJECUTADO
 (
+    id_renglon_ejecutado INT PRIMARY KEY IDENTITY(1,1),
     id_smip INT,
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_smip) REFERENCES SMIP(id_smip)
 );
 
 CREATE TABLE RENGLON_PENDIENTE
 (
+    id_renglon_pendiente INT PRIMARY KEY IDENTITY(1,1),
     id_smip INT,
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_smip) REFERENCES SMIP(id_smip)
 );
 
@@ -119,9 +123,9 @@ CREATE TABLE ODC
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_mod_monto) REFERENCES MOD_MONTO(id_mod_monto)
 );
 
@@ -131,9 +135,9 @@ CREATE TABLE OTS
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_mod_monto) REFERENCES MOD_MONTO(id_mod_monto)
 );
 
@@ -143,9 +147,9 @@ CREATE TABLE ATE
     num_renglon_trabajo INT,
     renglon_trabajo VARCHAR(600) NOT NULL,
     unidad_medida VARCHAR(20) NOT NULL,
-    cantidad_ejecutar DECIMAL NOT NULL,
-    dprecio_unitario DECIMAL NOT NULL,
-    precio_total DECIMAL NOT NULL,
+    cantidad DECIMAL NOT NULL,
+    costo_unitario DECIMAL NOT NULL,
+    costo_total DECIMAL NOT NULL,
     FOREIGN KEY (id_mod_monto) REFERENCES MOD_MONTO(id_mod_monto)
 );
 
