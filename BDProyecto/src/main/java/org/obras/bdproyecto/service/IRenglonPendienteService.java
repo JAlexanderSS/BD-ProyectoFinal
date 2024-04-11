@@ -5,7 +5,7 @@ import org.obras.bdproyecto.model.entity.RenglonPendiente;
 
 import java.util.List;
 
-public interface IRenglonPendienteImplService {
+public interface IRenglonPendienteService {
     RenglonPendiente saveRenglonPendiente(RenglonPendienteDto renglonPendienteDto);
     RenglonPendiente findRenglonPendienteById(Integer idRenglonPendiente);
     boolean existsByIdRenglonPendiente(Integer idRenglonPendiente);

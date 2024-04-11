@@ -3,14 +3,14 @@ package org.obras.bdproyecto.service.impl;
 import org.obras.bdproyecto.model.dao.RenglonPendieteDao;
 import org.obras.bdproyecto.model.dto.RenglonPendienteDto;
 import org.obras.bdproyecto.model.entity.RenglonPendiente;
-import org.obras.bdproyecto.service.IRenglonPendienteImplService;
+import org.obras.bdproyecto.service.IRenglonPendienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RenglonPendienteImplService implements IRenglonPendienteImplService {
+public class RenglonPendienteService implements IRenglonPendienteService {
     @Autowired
     private RenglonPendieteDao renglonPendieteDao;
 
