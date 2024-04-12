@@ -1,6 +1,6 @@
 CREATE DATABASE ControlProyectosBD;
 
-USE ControlProyectosDB;
+USE ControlProyectosBD;
 
 CREATE TABLE SNIP
 (
@@ -97,9 +97,9 @@ CREATE TABLE PRORROGA
         FOREIGN KEY (id_modificacion) REFERENCES MODIFICACION(id_modificacion)
 );
 
-CREATE TABLE DOC_CAMBIO
+CREATE TABLE TIPO_DOC_CAMBIO
 (
-    id_doc_cambio INT PRIMARY KEY IDENTITY(1,1),
+    id_tipo_doc_cambio INT PRIMARY KEY IDENTITY(1,1),
     tipo_doc_cambio VARCHAR(150)
 );
 
@@ -107,14 +107,14 @@ CREATE TABLE MOD_MONTO
 (
     id_mod_monto INT PRIMARY KEY IDENTITY(1,1),
     id_modificacion INT,
-    id_doc_cambio INT,
+    id_tipo_doc_cambio INT,
     justificacion VARCHAR(400) NOT NULL,
     monto_modificado DECIMAL NOT NULL,
     numero_acta INT NOT NULL,
     fecha_acta DATE NOT NULL,
     url_acta VARCHAR(500)
-        FOREIGN KEY (id_modificacion) REFERENCES MODIFICACION(id_modificacion),
-    FOREIGN KEY (id_doc_cambio) REFERENCES DOC_CAMBIO(id_doc_cambio)
+    FOREIGN KEY (id_modificacion) REFERENCES MODIFICACION(id_modificacion),
+    FOREIGN KEY (id_tipo_doc_cambio) REFERENCES TIPO_DOC_CAMBIO(id_tipo_doc_cambio)
 );
 
 CREATE TABLE ODC
