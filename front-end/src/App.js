@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './App.css'; // Asegúrate de que App.css está en el mismo nivel que App.js
 import Menu from './components/Menu';
 import RegistroNombre from './components/RegistroNombre';
+import AsociarSMIP from './components/AsociarSMIP';
+import RegistroRenglones from './components/RegistroRenglones';
 
 function App() {
   const [activeComponent, setActiveComponent] = useState('');
@@ -11,9 +13,9 @@ function App() {
       case 'nombre':
         return <RegistroNombre />;
       case 'smip':
-        return <div>Asociar SMIP</div>;
+        return <AsociarSMIP />;
       case 'renglones':
-        return <div>Registro de Renglones</div>;
+        return <RegistroRenglones />;
       default:
         return <div>Seleccione una opción del menú</div>;
     }
