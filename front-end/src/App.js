@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import './App.css';
-import Menu from './components/menu';
+import './App.css'; // Asegúrate de que App.css está en el mismo nivel que App.js
+import Menu from './components/Menu';
+import RegistroNombre from './components/RegistroNombre';
 
 function App() {
   const [activeComponent, setActiveComponent] = useState('');
@@ -8,7 +9,7 @@ function App() {
   const renderComponent = () => {
     switch (activeComponent) {
       case 'nombre':
-        return <div>Registro de Nombre</div>;
+        return <RegistroNombre />;
       case 'smip':
         return <div>Asociar SMIP</div>;
       case 'renglones':
