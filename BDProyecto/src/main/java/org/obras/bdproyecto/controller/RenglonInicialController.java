@@ -14,25 +14,26 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/renglonInicial")
-public class RenglonInicialContorller {
+public class RenglonInicialController {
     @Autowired
     private IRenglonInicialService renglonInicialService;
+
     @PostMapping("/saveRenglonInicial")
-public ResponseEntity<?> saveRenglonInicial(@RequestBody RenglonInicialDto renglonInicialDto){
+    public ResponseEntity<?> saveRenglonInicial(@RequestBody RenglonInicialDto renglonInicialDto){
         RenglonInicial renglonInicial_Save = null;
         try {
             renglonInicial_Save = renglonInicialService.saveRenglonInicial(renglonInicialDto);
             return new ResponseEntity<>(MensajeResponse.builder()
                     .mensaje("Renglon guardado correctamente")
                     .object(RenglonInicialDto.builder()
-                                    .idRenglonInicial(renglonInicial_Save.getIdRenglonInicial())
-                                    .idSmip(renglonInicial_Save.getIdSmip())
-                                    .numRenglonTrabajo(renglonInicial_Save.getNumRenglonTrabajo())
-                                    .renglonTrabajo(renglonInicial_Save.getRenglonTrabajo())
-                                    .unidadMedida(renglonInicial_Save.getUnidadMedida())
-                                    .cantidad(renglonInicial_Save.getCantidad())
-                                    .costoUnitario(renglonInicial_Save.getCostoUnitario())
-                                    .costoTotal(renglonInicial_Save.getCostoTotal())
+                            .idRenglonInicial(renglonInicial_Save.getIdRenglonInicial())
+                            .idSmip(renglonInicial_Save.getIdSmip())
+                            .numRenglonTrabajo(renglonInicial_Save.getNumRenglonTrabajo())
+                            .renglonTrabajo(renglonInicial_Save.getRenglonTrabajo())
+                            .unidadMedida(renglonInicial_Save.getUnidadMedida())
+                            .cantidad(renglonInicial_Save.getCantidad())
+                            .costoUnitario(renglonInicial_Save.getCostoUnitario())
+                            .costoTotal(renglonInicial_Save.getCostoTotal())
                             .build()
                     )
                     .build()
@@ -47,7 +48,7 @@ public ResponseEntity<?> saveRenglonInicial(@RequestBody RenglonInicialDto rengl
         }
     }
 
-    @GetMapping ("/findRenglonInicialById/{idRenglonInicial}")
+    @GetMapping("/findRenglonInicialById/{idRenglonInicial}")
     public ResponseEntity<?> findRenglonInicialById(@PathVariable Integer idRenglonInicial){
         RenglonInicial renglonInicial = renglonInicialService.findRenglonInicialById(idRenglonInicial);
         if (renglonInicial == null){
@@ -91,10 +92,10 @@ public ResponseEntity<?> saveRenglonInicial(@RequestBody RenglonInicialDto rengl
         }
     }
 
-    @GetMapping("/listAllRenglonInicial")
-    public ResponseEntity<?> showAll(){
-        List<RenglonInicial> getListRenglonInicial = renglonInicialService.listAllRenglonInicial();
-        if (getListRenglonInicial == null){
+    @GetMapping("/listBySmip/{idSmip}")
+    public ResponseEntity<?> listBySmip(@PathVariable Integer idSmip){
+        List<RenglonInicial> getListRenglonInicial = renglonInicialService.findByIdSmip(idSmip);
+        if (getListRenglonInicial == null || getListRenglonInicial.isEmpty()){
             return new ResponseEntity<>(
                     MensajeResponse.builder()
                             .mensaje("No hay registros")

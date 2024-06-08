@@ -8,7 +8,8 @@ import java.util.List;
 public interface IRenglonInicialService {
     RenglonInicial saveRenglonInicial(RenglonInicialDto renglonInicialDto);
     RenglonInicial findRenglonInicialById(Integer idRenglonInicial);
-    boolean existsByIdRenglonInicial(Integer idRenglonInicial);
     void deleteRenglonInicial(RenglonInicial renglonInicial);
     List<RenglonInicial> listAllRenglonInicial();
+    boolean existsByIdRenglonInicial(Integer idRenglonInicial);
+    List<RenglonInicial> findByIdSmip(Integer idSmip);
 }

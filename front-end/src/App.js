@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import './App.css'; // Asegúrate de que App.css está en el mismo nivel que App.js
 import Menu from './components/Menu';
 import RegistroNombre from './components/RegistroNombre';
 import AsociarSMIP from './components/AsociarSMIP';
 import RegistroRenglones from './components/RegistroRenglones';
+import AvanceProyecto from './components/AvanceProyecto';
+import './App.css';
 
 function App() {
-  const [activeComponent, setActiveComponent] = useState('');
+  const [activeComponent, setActiveComponent] = useState('nombre');
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -16,17 +17,17 @@ function App() {
         return <AsociarSMIP />;
       case 'renglones':
         return <RegistroRenglones />;
+      case 'avance':
+        return <AvanceProyecto />;
       default:
-        return <div>Seleccione una opción del menú</div>;
+        return <RegistroNombre />;
     }
   };
 
   return (
     <div className="App">
       <Menu setActiveComponent={setActiveComponent} />
-      <div className="content">
-        {renderComponent()}
-      </div>
+      {renderComponent()}
     </div>
   );
 }

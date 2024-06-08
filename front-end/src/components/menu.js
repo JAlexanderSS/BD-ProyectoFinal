@@ -2,28 +2,37 @@ import React, { useState } from 'react';
 import '../css/Menu.css';
 
 const Menu = ({ setActiveComponent }) => {
-  const [isSubMenuVisible, setIsSubMenuVisible] = useState(false);
+  const [isRegistroSubMenuVisible, setIsRegistroSubMenuVisible] = useState(false);
+  const [isAvanceSubMenuVisible, setIsAvanceSubMenuVisible] = useState(false);
 
   return (
     <div className="menu">
-      <h2 
+      <div
         className="menu-header"
-        onMouseEnter={() => setIsSubMenuVisible(true)}
-        onMouseLeave={() => setIsSubMenuVisible(false)}
+        onMouseEnter={() => setIsRegistroSubMenuVisible(true)}
+        onMouseLeave={() => setIsRegistroSubMenuVisible(false)}
       >
-        Registro
-      </h2>
-      {isSubMenuVisible && (
-        <div 
-          className="submenu"
-          onMouseEnter={() => setIsSubMenuVisible(true)}
-          onMouseLeave={() => setIsSubMenuVisible(false)}
-        >
-          <button onClick={() => setActiveComponent('nombre')}>Registrar nombre</button>
-          <button onClick={() => setActiveComponent('smip')}>Asociar SMIP</button>
-          <button onClick={() => setActiveComponent('renglones')}>Registro de renglones</button>
-        </div>
-      )}
+        <h2>Registro</h2>
+        {isRegistroSubMenuVisible && (
+          <div className="submenu">
+            <button onClick={() => setActiveComponent('nombre')}>Registrar nombre</button>
+            <button onClick={() => setActiveComponent('smip')}>Asociar SMIP</button>
+            <button onClick={() => setActiveComponent('renglones')}>Registro de renglones</button>
+          </div>
+        )}
+      </div>
+      <div
+        className="menu-header"
+        onMouseEnter={() => setIsAvanceSubMenuVisible(true)}
+        onMouseLeave={() => setIsAvanceSubMenuVisible(false)}
+      >
+        <h2>Avance</h2>
+        {isAvanceSubMenuVisible && (
+          <div className="submenu">
+            <button onClick={() => setActiveComponent('avance')}>Avance del Proyecto</button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

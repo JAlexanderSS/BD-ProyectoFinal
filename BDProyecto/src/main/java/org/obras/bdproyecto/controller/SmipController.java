@@ -2,8 +2,10 @@ package org.obras.bdproyecto.controller;
 
 import org.obras.bdproyecto.model.dto.SmipDto;
 import org.obras.bdproyecto.model.entity.Smip;
+import org.obras.bdproyecto.model.entity.Snip;
 import org.obras.bdproyecto.model.playload.MensajeResponse;
 import org.obras.bdproyecto.service.ISmipService;
+import org.obras.bdproyecto.service.ISnipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,9 +16,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/smip")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SmipController {
     @Autowired
     private ISmipService smipService;
+
+    @Autowired
+    private ISnipService snipService;
 
     @PostMapping("/saveSmip")
     public ResponseEntity<?> saveSmip(@RequestBody SmipDto smipDto){
@@ -24,7 +30,7 @@ public class SmipController {
         try {
             smip_Save = smipService.saveSmip(smipDto);
             return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyecto guardado correctamente")
+                    .mensaje("SMIP asociado correctamente")
                     .object(SmipDto.builder()
                             .idSmip(smip_Save.getIdSmip())
                             .numeroSmip(smip_Save.getNumeroSmip())
@@ -43,18 +49,19 @@ public class SmipController {
             );
         }
     }
-    @GetMapping ("/findSmipById/{idSmip}")
+
+    @GetMapping("/findSmipById/{idSmip}")
     public ResponseEntity<?> findSmipById(@PathVariable Integer idSmip){
         Smip smip = smipService.findSmipById(idSmip);
         if (smip == null){
             return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyecto no encontrado")
+                    .mensaje("SMIP no encontrado")
                     .object(null)
                     .build()
                     , HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(MensajeResponse.builder()
-                .mensaje("Proyecto encontrado")
+                .mensaje("SMIP encontrado")
                 .object(SmipDto.builder()
                         .idSmip(smip.getIdSmip())
                         .numeroSmip(smip.getNumeroSmip())
@@ -65,40 +72,43 @@ public class SmipController {
                 .build()
                 , HttpStatus.OK);
     }
+
     @DeleteMapping("/deleteSmip/{idSmip}")
     public ResponseEntity<?> deleteSmip(@PathVariable Integer idSmip){
         Smip smip = smipService.findSmipById(idSmip);
         if (smip == null){
             return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyecto no encontrado")
+                    .mensaje("SMIP no encontrado")
                     .object(null)
                     .build()
                     , HttpStatus.NOT_FOUND);
         }
         smipService.deleteSmip(smip);
         return new ResponseEntity<>(MensajeResponse.builder()
-                .mensaje("Proyecto eliminado")
+                .mensaje("SMIP eliminado")
                 .object(null)
                 .build()
                 , HttpStatus.OK);
     }
+
     @GetMapping("/listAllSmip")
     public ResponseEntity<?> listAllSmip(){
         List<Smip> listSmip = smipService.listAllSmip();
-        if (listSmip == null){
+        if (listSmip == null || listSmip.isEmpty()){
             return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("No hay proyectos registrados")
+                    .mensaje("No hay SMIPs registrados")
                     .object(null)
                     .build()
                     , HttpStatus.NOT_FOUND);
         }else {
             return new ResponseEntity<>(MensajeResponse.builder()
-                    .mensaje("Proyectos encontrados")
+                    .mensaje("SMIPs encontrados")
                     .object(listSmip)
                     .build()
                     , HttpStatus.OK);
         }
     }
+
     @PutMapping("/updateSmip/{idSmip}")
     public ResponseEntity<?> updateSmip(@PathVariable Integer idSmip, @RequestBody SmipDto smipDto) {
         try {
@@ -113,12 +123,12 @@ public class SmipController {
                         .build();
 
                 return new ResponseEntity<>(MensajeResponse.builder()
-                        .mensaje("Proyecto actualizado")
+                        .mensaje("SMIP actualizado")
                         .object(updatedDto)
                         .build(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(MensajeResponse.builder()
-                        .mensaje("Proyecto no encontrado")
+                        .mensaje("SMIP no encontrado")
                         .object(null)
                         .build(), HttpStatus.NOT_FOUND);
             }
@@ -129,4 +139,31 @@ public class SmipController {
                     .build(), HttpStatus.METHOD_NOT_ALLOWED);
         }
     }
+    @GetMapping("/projectBySmip/{idSmip}")
+    public ResponseEntity<?> getProjectBySmip(@PathVariable Integer idSmip) {
+        Smip smip = smipService.findSmipById(idSmip);
+        if (smip == null) {
+            return new ResponseEntity<>(MensajeResponse.builder()
+                    .mensaje("SMIP no encontrado")
+                    .object(null)
+                    .build()
+                    , HttpStatus.NOT_FOUND);
+        }
+
+        Snip snip = snipService.findSnipById(smip.getIdSnip());
+        if (snip == null) {
+            return new ResponseEntity<>(MensajeResponse.builder()
+                    .mensaje("Proyecto no encontrado")
+                    .object(null)
+                    .build()
+                    , HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(MensajeResponse.builder()
+                .mensaje("Proyecto encontrado")
+                .object(snip)
+                .build()
+                , HttpStatus.OK);
+    }
+
 }

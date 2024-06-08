@@ -1,8 +1,8 @@
-.asociar-smip {
+.avance-proyecto {
   background-color: #ffffff;
   padding: 20px;
   border-radius: 8px;
-  width: 600px;
+  width: 80%;
   margin: 40px auto;
   color: #333;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -24,8 +24,7 @@
   color: #333;
 }
 
-.form-group select,
-.form-group input {
+.form-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #b2a6be;
@@ -33,7 +32,32 @@
   margin-bottom: 10px;
 }
 
-button[type="submit"] {
+.table-container {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #b2a6be;
+}
+
+th {
+  background-color: #555184;
+  color: #ffffff;
+}
+
+tr:hover {
+  background-color: #b2a6be;
+}
+
+button {
   width: 100%;
   background-color: #555184;
   color: #ffffff;
@@ -41,11 +65,12 @@ button[type="submit"] {
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 20px;
   font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+button:hover {
   background-color: #28293d;
 }
 

@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import '../css/RegistroNombre.css';
 
 const RegistroNombre = () => {
   const [noSnip, setNoSnip] = useState('');
   const [nombreProyecto, setNombreProyecto] = useState('');
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/api/snips', { noSnip, nombreProyecto });
+      await api.post('/snip/saveSnip', { noSnip, nombreProyecto });
+      setSuccessMessage('Proyecto guardado correctamente');
+      setError(null);
       setNoSnip('');
       setNombreProyecto('');
-      // fetchSnips(); // Implementar si es necesario
-    } catch (error) {
-      console.error("There was an error creating the snip!", error);
+    } catch (err) {
+      setError(err.response ? err.response.data.mensaje : 'Error al guardar el proyecto');
+      setSuccessMessage(null);
+      console.error(err);
     }
   };
 
@@ -23,6 +28,8 @@ const RegistroNombre = () => {
       <div className="form-header">
         <h2>Creación del nombre para proyecto</h2>
       </div>
+      {error && <div className="error">{error}</div>}
+      {successMessage && <div className="success">{successMessage}</div>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Numero de Snip</label>

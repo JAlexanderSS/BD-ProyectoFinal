@@ -15,16 +15,14 @@ public class RenlgonInicialImplService implements IRenglonInicialService {
     private RenglonInicialDao renglonInicialDao;
     @Override
     public RenglonInicial saveRenglonInicial(RenglonInicialDto renglonInicialDto) {
-        RenglonInicial renglonInicial = RenglonInicial.builder()
-                .idRenglonInicial(renglonInicialDto.getIdRenglonInicial())
-                .idSmip(renglonInicialDto.getIdSmip())
-                .numRenglonTrabajo(renglonInicialDto.getNumRenglonTrabajo())
-                .renglonTrabajo(renglonInicialDto.getRenglonTrabajo())
-                .unidadMedida(renglonInicialDto.getUnidadMedida())
-                .cantidad(renglonInicialDto.getCantidad())
-                .costoUnitario(renglonInicialDto.getCostoUnitario())
-                .costoTotal(renglonInicialDto.getCostoTotal())
-                .build();
+        RenglonInicial renglonInicial = new RenglonInicial();
+        renglonInicial.setIdSmip(renglonInicialDto.getIdSmip());
+        renglonInicial.setNumRenglonTrabajo(renglonInicialDto.getNumRenglonTrabajo());
+        renglonInicial.setRenglonTrabajo(renglonInicialDto.getRenglonTrabajo());
+        renglonInicial.setUnidadMedida(renglonInicialDto.getUnidadMedida());
+        renglonInicial.setCantidad(renglonInicialDto.getCantidad());
+        renglonInicial.setCostoUnitario(renglonInicialDto.getCostoUnitario());
+        renglonInicial.setCostoTotal(renglonInicialDto.getCostoTotal());
         return renglonInicialDao.save(renglonInicial);
     }
 
@@ -34,17 +32,22 @@ public class RenlgonInicialImplService implements IRenglonInicialService {
     }
 
     @Override
-    public boolean existsByIdRenglonInicial(Integer idRenglonInicial) {
-        return renglonInicialDao.existsById(idRenglonInicial);
-    }
-
-    @Override
     public void deleteRenglonInicial(RenglonInicial renglonInicial) {
         renglonInicialDao.delete(renglonInicial);
     }
 
     @Override
     public List<RenglonInicial> listAllRenglonInicial() {
-        return (List) renglonInicialDao.findAll();
+        return renglonInicialDao.findAll();
+    }
+
+    @Override
+    public boolean existsByIdRenglonInicial(Integer idRenglonInicial) {
+        return renglonInicialDao.existsById(idRenglonInicial);
+    }
+
+    @Override
+    public List<RenglonInicial> findByIdSmip(Integer idSmip) {
+        return renglonInicialDao.findByIdSmip(idSmip);
     }
 }
